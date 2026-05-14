@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #ffffff;
+}
+#form-currency {
+    display: table;
+    width: auto;
+    border-spacing: 20px 0;
+}
+.column {
+    display: table-cell;
+    vertical-align: bottom;
+}
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-align: center;
+}
+input, select {
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    width: 180px;
+    height: 30px;
+    box-sizing: border-box;
+}
+button {
+    background-color: #8e7cc3;
+    color: white;
+    border: none;
+    padding: 0 20px;
+    height: 34px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+}
+button:hover {
+    background-color: #7665a0;
+}
+.result {
+    margin-top: 30px;
+    color: blue;
+    font-size: 18px;
+}
