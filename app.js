@@ -6,15 +6,15 @@ function calculate(operator) {
     let result = 0;
     let opName = "";
 
-    if (isNaN(n1) || isNaN(n2)) {
-        resultDiv.innerText = "Vui lòng nhập số hợp lệ!";
+    if (isNaN(number1) || isNaN(number2)) {
+        resultDisplay.innerText = "Vui lòng nhập số hợp lệ!";
         return;
     }
 
     switch(operator) {
         case '+': result = number1 + number2; opName = "Addition"; break;
         case '-': result = number1 - number2; opName = "Subtraction"; break;
-        case 'X': result = number1 * number2; opName = "Multiplication"; break;
+        case '*': result = number1 * number2; opName = "Multiplication"; break;
         case '/': 
             if(number2 === 0) {
                 resultDisplay.innerText = "Không thể chia cho 0";
