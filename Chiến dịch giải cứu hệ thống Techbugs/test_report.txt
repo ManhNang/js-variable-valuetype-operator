@@ -1,0 +1,32 @@
+1. Test Case: Vai trò người dùng là một "Object" lạ
+Dữ liệu: checkDiscount({ role: "ADMIN" }, "SAVE10", 1000)
+Mục đích: Kiểm tra xem hệ thống có bị "crash" khi nhận vào một Object thay vì String hay không.
+Kết quả thực tế: LỖI (Crash).
+Giải thích: Do bạn dùng userRole?.toUpperCase(), nhưng một Object thông thường không có hàm .toUpperCase(). Hệ thống sẽ văng lỗi: TypeError: userRole.toUpperCase is not a function.
+Cách sửa: Thêm kiểm tra if (typeof userRole !== 'string') return "Lỗi...".
+
+2. Test Case: Tấn công bằng ký tự điều khiển (Invisibles)
+Dữ liệu: checkDiscount("VIP\n", "VOUCHER", 600) (VIP kèm dấu xuống dòng)
+Mục đích: Kiểm tra xem việc chuẩn hóa chuỗi đã triệt để chưa.
+Kết quả thực tế: SAI LOGIC.
+Giải thích: Code sẽ chạy xuống cuối và báo "Khách hàng thường: Không có giảm giá". Lý do là "VIP\n".toUpperCase() vẫn chứa ký tự xuống dòng, nên không khớp với "VIP".
+Cách sửa: Sử dụng const role = userRole?.trim().toUpperCase();.
+
+3. Test Case: Mã Voucher là chuỗi toàn số
+Dữ liệu: checkDiscount("VIP", "12345", 600)
+Mục đích: Kiểm tra xem hệ thống có chấp nhận mã voucher chỉ gồm số (nhưng ở dạng string) hay không.
+Kết quả thực tế: VƯỢT QUA (Thành công).
+Giải thích: isValidVoucher của bạn kiểm tra typeof voucherCode === 'string', nên "12345" là hợp lệ. Đây là điểm cộng vì bạn đã chặn được số 1 (number) nhưng vẫn nhận mã số (string).
+
+4. Test Case: Lỗi làm tròn số thực (Floating Point Precision)
+Dữ liệu: checkDiscount("VIP", "CODE", 499.99999999999999) (Rất gần 500)
+Mục đích: Thử thách cơ chế lưu trữ số của JavaScript.
+Kết quả thực tế: SAI LOGIC.
+Giải thích: JavaScript tự động làm tròn số này thành 500. Kết quả trả về là "VIP: Giảm giá 30%" dù thực tế số nhập vào nhỏ hơn 500.
+Lời khuyên: Trong các hệ thống tài chính, thường người ta sẽ nhân 100 để tính trên số nguyên (xu/cent) rồi mới so sánh.
+
+5. Test Case: Mã Voucher là chuỗi " rỗng có dấu cách "
+Dữ liệu: checkDiscount("VIP", "   ", 600)
+Mục đích: Kiểm tra xem isValidVoucher có thực sự loại bỏ được chuỗi vô nghĩa hay không.
+Kết quả thực tế: THÀNH CÔNG (Chặn được).
+Giải thích: Nhờ bạn dùng voucherCode.trim().length > 0, chuỗi trắng sẽ bị coi là không hợp lệ. Đây là một cải tiến rất tốt so với bản cũ!
